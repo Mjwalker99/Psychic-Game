@@ -1,3 +1,4 @@
+<script>src = "game.js"</script>
 <!DOCTYPE html>
 <html>
 
@@ -8,13 +9,13 @@
 
 <body>
 
-  <div>
-    <h1>The Psychic Game</h1>
-    <p id="letter">Guess what letter i'm thinking of</p>
-    <p id="winz">Wins:</p>
-    <p id="lossez">Losses:</p>
-    <p id="left">Guesses Left:</p>
-    <p id="far">Your Guesses so far:</p>
+  <div id="div1">
+    <h1> The Psychic Game </h1>
+    <p>Guess what letter I'm thinking of</p>
+    <p>Wins:</p>
+    <p>Losses:</p>
+    <p>Guesses Left:</p>
+    <p>Your Guesses so far:</p>
   </div>
 
 </body>
@@ -22,47 +23,58 @@
 
 <script type="text/javascript">
 
-  var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
+  var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",];
 
   var wins = 0;
   var losses = 0;
-  var gLeft = 0;
-  var soFar = 9;
-
-  var winz = document.getElementById("winz");
-  var lossez = document.getElementById("lossez");
-  var left = document.getElementById("left");
-  var far = document.getElementById("far");
+  var gLeft = 9;
+  var soFar = [];
 
   document.onkeyup = function (event) {
 
     var userGuess = event.key;
 
-    var computerChoice = computerChoices = [Math.floor(Math.random() * computerChoices)];
+    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+
+    var options = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",];
 
 
-    if ((userGuess === computerChoices)) {
-      wins++;
+    if (options.indexOf(userGuess) > -1) {
+
+      if (userGuess === computerGuess) {
+        wins++;
+        gLeft = 9;
+        soFar = [];
+      }
+
+      if (userGuess != computerGuess) {
+        gLeft--;
+        soFar.push(userGuess);
+      }
+
+      if (gLeft === 0) {
+
+        gLeft = 9;
+        losses++;
+        soFar = [];
+
+
+      }
+
+      var html =
+        "<h1> The Psychic Game </h1>" +
+        "<p>Guess what letter I'm thinking of</p>" +
+        "<p>Wins: " + wins + "</p>" +
+        "<p>Losses: " + losses + "</p>" +
+        "<p>Guesses Left: " + gLeft + "</p>" +
+        "<p>Your Guesses so far: " + soFar.join(", ") + "</p>";
+
+      document.querySelector("#div1").innerHTML = html;
+
     }
-
-     if ((userGuess != computerChoice)) {
-      losses++;
-    }
-
-
-
-    
-
-      winz.textContent = "Wins: " + wins;
-      lossez.textContent = "Losses: " + losses;
-      left.textContent = "Guesses Left: " + gLeft;
-      far.textContent = "Your Guesses so far: " + event.key;
-    };
-
+  };
 
 </script>
-
-
 
 </html>
